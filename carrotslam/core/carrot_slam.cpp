@@ -8,8 +8,9 @@ using namespace std;
 
 namespace carrotslam {
 
-////SetSLAMEngineContext
-SequenceSLAMEngine::SequenceSLAMEngine(const string& file, ISLAMEngineContextPtr& context){
+SequenceSLAMEngine::SequenceSLAMEngine(const string& file, ISLAMEngineContextPtr& context) 
+		:is_ordered_(false)
+{
   context_ = context;
   config_ = ISLAMEngineConfigPtr(new XMLSLAMEngineConfig(file));
 }

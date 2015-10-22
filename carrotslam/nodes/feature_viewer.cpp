@@ -119,6 +119,7 @@ ISLAMNode::RunResult FeatureViewer::run() {
     imshow("FeatureViewer", view_img);
     waitKey();
   }
+  return RUN_SUCCESS;
 }
 
 } // namespace carrotslam

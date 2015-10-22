@@ -6,6 +6,7 @@ INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/include")
 if(MSVC)
 SET(LINKLIBS carrotslam_core
 carrotslam_nodes
+pugixml
 glog)
 else(MSVC)
 SET(LINKLIBS libcarrotslam_core.a

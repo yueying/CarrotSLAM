@@ -276,7 +276,7 @@ class SequenceSLAMEngine : public ISLAMEngine {
   ISLAMEngineConfigPtr config_;
   ISLAMEngineContextPtr context_;
   std::vector<ISLAMNodePtr> nodes_;
-  bool is_ordered_ = false;
+  bool is_ordered_;
 };
 
 
