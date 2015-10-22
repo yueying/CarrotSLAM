@@ -161,4 +161,5 @@ int RGBDTutorial_VO::solveRgbdPnP(
     {
         Eigen::Vector2f& p = frame1->features[ m.queryIdx ]->px; 
     }
+	return 0;
 }

@@ -25,3 +25,10 @@ ${LINKLIBS}
 ${OpenCV_LIBS}
 ${Boost_LIBRARIES}
 )
+
+# 设置将项目添加到包中
+if(ENABLE_SOLUTION_FOLDERS)
+	set_target_properties(carrotslam_tests PROPERTIES FOLDER "app")
+else(ENABLE_SOLUTION_FOLDERS)
+	SET_TARGET_PROPERTIES(carrotslam_tests  PROPERTIES PROJECT_LABEL "(app) carrotslam_tests")
+endif(ENABLE_SOLUTION_FOLDERS)
