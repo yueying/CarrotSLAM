@@ -12,19 +12,12 @@ file(GLOB include/gtest/*.h include/gtest/internal/*.h src/*.h )
 
 ADD_LIBRARY(carrotslamgtest 
 	STATIC
-	src/gtest.cc
-             src/gtest-death-test.cc
-             src/gtest-filepath.cc
-             src/gtest-port.cc
-             src/gtest-printers.cc
-             src/gtest-test-part.cc
-             src/gtest-typed-test.cc 
-			 
+	src/gtest-all.cc			 
 	)
 
 
 IF(CMAKE_COMPILER_IS_GNUCXX AND UNIX)
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX AND UNIX)
 
 

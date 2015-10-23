@@ -260,56 +260,6 @@ macro(internal_define_carrotslam_lib name headers_only is_metalib)
 
 	ENDIF (NOT ${headers_only})
 
-	# Generate the libcarrotslam_$NAME.pc file for pkg-config:
-	IF(UNIX)
-		SET(carrotslam_pkgconfig_LIBNAME ${name})
-		get_property(_lst_deps GLOBAL PROPERTY "carrotslam_${name}_LIB_DEPS")
-		
-		# a comma-separated list of other carrotslam_* dependencies.
-		SET(carrotslam_pkgconfig_REQUIRES "")
-		FOREACH(DEP ${_lst_deps})
-			IF(NOT "${carrotslam_pkgconfig_REQUIRES}" STREQUAL "")
-				SET(carrotslam_pkgconfig_REQUIRES "${carrotslam_pkgconfig_REQUIRES},")
-			ENDIF(NOT "${carrotslam_pkgconfig_REQUIRES}" STREQUAL "")
-			SET(carrotslam_pkgconfig_REQUIRES "${carrotslam_pkgconfig_REQUIRES}${DEP}")
-		ENDFOREACH(DEP)
-
-		# Special case: For carrotslam_base, mark "eigen3" as a pkg-config dependency only 
-		#  if we are instructed to do so: (EIGEN_USE_EMBEDDED_VERSION=OFF)
-		IF(NOT EIGEN_USE_EMBEDDED_VERSION)
-			SET(carrotslam_pkgconfig_REQUIRES "${carrotslam_pkgconfig_REQUIRES},eigen3")
-		ENDIF(NOT EIGEN_USE_EMBEDDED_VERSION)
-
-		# "Libs" lines in .pc files:
-		# -----------------------------------------------------------
-		# * for install, normal lib:
-		#    Libs: -L${libdir}  -lcarrotslam_@carrotslam_pkgconfig_LIBNAME@ 
-		# * for install, headers-only lib:
-		#    <none>
-		# * for local usage, normal lib:
-		#    Libs: -L${libdir} -Wl,-rpath,${libdir} -lcarrotslam_@carrotslam_pkgconfig_LIBNAME@ 
-		# * for local usage, headers-only lib:
-		#    <none>
-		IF (${headers_only})
-			SET(carrotslam_pkgconfig_lib_line_install "")
-			SET(carrotslam_pkgconfig_lib_line_noinstall "")
-			SET(carrotslam_pkgconfig_carrotslam_private_line "")
-		ELSE (${headers_only})
-			SET(carrotslam_pkgconfig_lib_line_install "Libs: -L\${libdir}  -lcarrotslam_${name}")
-			SET(carrotslam_pkgconfig_lib_line_noinstall "Libs: -L\${libdir} -Wl,-rpath,\${libdir} -lcarrotslam_${name}")
-			SET(carrotslam_pkgconfig_carrotslam_private_line "Libs.private: ${CarrotSLAMLIB_LINKER_LIBS}")
-		ENDIF (${headers_only})
-
-		# (1/2) Generate the .pc file for "make install"
-		CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/parse-files/carrotslam_template.pc.in" "${CMAKE_BINARY_DIR}/pkgconfig/carrotslam_${name}.pc" @ONLY)
-
-		# (2/2) And another .pc file for local usage:
-		SET(carrotslam_pkgconfig_NO_INSTALL_SOURCE "${CarrotSLAM_SOURCE_DIR}")
-		SET(carrotslam_pkgconfig_NO_INSTALL_BINARY "${CarrotSLAM_BINARY_DIR}")
-		CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/parse-files/carrotslam_template_no_install.pc.in" "${CMAKE_BINARY_DIR}/pkgconfig-no-install/carrotslam_${name}.pc" @ONLY)
-		
-	ENDIF(UNIX)
-
 	# --- End of conditional build of module ---
 	ENDIF(BUILD_carrotslam_${name}) 
 
